@@ -20,51 +20,65 @@ def build_address_picker_surface() -> list[A2UIMessage]:
 
 def build_shop_list_surface(shops: list) -> list[A2UIMessage]:
     surface_id = f"shops_{uuid.uuid4().hex[:8]}"
-    components = []
-    shop_ids = []
+    list_id = "shop_list_0"
+    shop_ids: list[str] = []
+
+    messages: list[A2UIMessage] = [
+        CreateSurface(surface={"id": surface_id, "root": list_id}),
+        UpdateComponents(components=[
+            A2UIComponent(id=list_id, type="shop_list", props={}, children=[])
+        ]),
+    ]
+
     for i, shop in enumerate(shops):
         cid = f"shop_item_{i}"
         shop_ids.append(cid)
-        components.append(A2UIComponent(
-            id=cid,
-            type="shop_item",
-            props={
-                "shop_id": shop.get("id", ""),
-                "name": shop.get("name", ""),
-                "rating": shop.get("rating", 0),
-                "distance": shop.get("distance", ""),
-            }
-        ))
-    list_id = "shop_list_0"
-    components.append(A2UIComponent(id=list_id, type="shop_list", props={}, children=shop_ids))
-    return [
-        CreateSurface(surface={"id": surface_id, "root": list_id}),
-        UpdateComponents(components=components),
-    ]
+        messages.append(UpdateComponents(components=[
+            A2UIComponent(
+                id=cid,
+                type="shop_item",
+                props={
+                    "shop_id": shop.get("id", ""),
+                    "name": shop.get("name", ""),
+                    "rating": shop.get("rating", 0),
+                    "distance": shop.get("distance", ""),
+                }
+            ),
+            A2UIComponent(id=list_id, type="shop_list", props={}, children=list(shop_ids)),
+        ]))
+
+    return messages
 
 
 def build_menu_surface(items: list) -> list[A2UIMessage]:
     surface_id = f"menu_{uuid.uuid4().hex[:8]}"
-    components = []
-    item_ids = []
+    list_id = "menu_list_0"
+    item_ids: list[str] = []
+
+    messages: list[A2UIMessage] = [
+        CreateSurface(surface={"id": surface_id, "root": list_id}),
+        UpdateComponents(components=[
+            A2UIComponent(id=list_id, type="menu_list", props={}, children=[])
+        ]),
+    ]
+
     for i, item in enumerate(items):
         cid = f"menu_item_{i}"
         item_ids.append(cid)
-        components.append(A2UIComponent(
-            id=cid,
-            type="menu_item",
-            props={
-                "name": item.get("name", ""),
-                "price": item.get("price", 0),
-                "description": item.get("description", ""),
-            }
-        ))
-    list_id = "menu_list_0"
-    components.append(A2UIComponent(id=list_id, type="menu_list", props={}, children=item_ids))
-    return [
-        CreateSurface(surface={"id": surface_id, "root": list_id}),
-        UpdateComponents(components=components),
-    ]
+        messages.append(UpdateComponents(components=[
+            A2UIComponent(
+                id=cid,
+                type="menu_item",
+                props={
+                    "name": item.get("name", ""),
+                    "price": item.get("price", 0),
+                    "description": item.get("description", ""),
+                }
+            ),
+            A2UIComponent(id=list_id, type="menu_list", props={}, children=list(item_ids)),
+        ]))
+
+    return messages
 
 
 def build_order_confirm_surface(order_data: dict) -> list[A2UIMessage]:
