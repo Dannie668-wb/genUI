@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:docs.ag-ui.com)",
+      "WebFetch(domain:a2ui.org)",
+      "PowerShell(npm *)",
+      "Bash(Get-ChildItem -Path . -Directory -Exclude .venv, __pycache__)",
+      "Bash(Select-Object -First 20)",
+      "WebFetch(domain:github.com)",
+      "Bash(.venv/Scripts/python.exe -c ' *)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(dir D:\\\\code\\\\genui *)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:medium.com)",
+      "Bash(.venv/Scripts/python -c ' *)",
+      "Bash(npx tsc *)",
+      "Bash(npm install *)",
+      "PowerShell(Get-ChildItem D:\\\\code\\\\genui\\\\backend\\\\ | Where-Object { $_.Name -ne \".venv\" })"
+    ]
+  }
+}
